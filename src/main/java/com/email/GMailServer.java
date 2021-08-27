@@ -51,7 +51,7 @@ public class GMailServer extends javax.mail.Authenticator {
 		message.setSubject(subject);
 		message.setDataHandler(handler);
 		if (recipients.indexOf(',') > 0)
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
+			message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(recipients));
 		else
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
 		Transport.send(message);
