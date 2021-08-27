@@ -4,7 +4,9 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.email.DBScheduler;
+import com.email.Constants;
+import com.email.GMailServer;
+import com.email.ReadPropertiesFile;
 
 public class TestJob implements Job {
 
@@ -12,12 +14,17 @@ public class TestJob implements Job {
     public void execute(final JobExecutionContext ctx)
             throws JobExecutionException {
 
-        System.out.println("Executing Job");
-        try {
-        	 DBScheduler dbs = new DBScheduler();
-     		dbs.callScheduler();
+        System.out.println("Starting Executing Job....");
+		try {
+			ReadPropertiesFile.readConfig();
+	        GMailServer sender = new GMailServer(Constants.setFrom, Constants.setPassword);
+
+			sender.sendMail("Subject", "This is done by tomcate", Constants.setFrom, Constants.emailTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("Email Sent Succesfully...");
+        
     }
 }
